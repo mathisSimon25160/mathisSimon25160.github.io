@@ -69,27 +69,20 @@ h3,.h3{font-family:var(--affiche);font-weight:800;text-transform:uppercase;lette
 .menu-b[aria-expanded="true"] span::after{transform:translateY(-6px) rotate(-45deg)}
 .progres{position:fixed;left:0;top:0;height:3px;width:100%;transform:scaleX(0);transform-origin:left;background:var(--or-vif);z-index:70;pointer-events:none}
 
-/* ouverture épinglée : le titre est une fenêtre sur un échiquier vivant ; la dame balaie un texte pour amener le suivant */
-.ouverture{height:300svh;background:var(--noir);position:relative}
-.scene-ouv{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;padding-top:var(--haut-barre);overflow:hidden;background:var(--noir)}
+/* ouverture : le titre est une fenêtre sur un échiquier vivant */
+.ouverture{background:var(--noir);position:relative}
+.scene-ouv{position:relative;height:100svh;display:flex;flex-direction:column;padding-top:var(--haut-barre);overflow:hidden;background:var(--noir)}
 .titre{position:relative;isolation:isolate;flex:1 1 auto;min-height:0}
 .titre canvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
 .decoupe{position:absolute;inset:0;z-index:1;margin:0;background:var(--noir);color:#fff;mix-blend-mode:multiply;font-family:var(--affiche);font-weight:900;text-transform:uppercase;line-height:.78;letter-spacing:-.012em;
-  display:flex;flex-direction:column;justify-content:center;padding-inline:max(.5vw,6px);overflow:hidden;clip-path:inset(0 var(--r,0%) 0 var(--l,0%))}
+  display:flex;flex-direction:column;justify-content:center;padding-inline:max(.5vw,6px);overflow:hidden}
 .d1{--fs:min(23.5vw,31svh)}
-.d2{--fs:min(21vw,27svh);--r:100%}
-.d3{--fs:min(19.5vw,28svh);--l:100%}
 .decoupe > span{display:block;white-space:nowrap;line-height:.92}
 .decoupe .l1{font-size:calc(var(--fs)*.5);align-self:flex-start}
 .decoupe .l2{font-size:var(--fs);margin-block:.2em .02em}
-.d2 .l2{font-size:calc(var(--fs)*1.3)}
 .decoupe .l3{font-size:calc(var(--fs)*.5);align-self:flex-end}
-.d3 .l3{font-size:calc(var(--fs)*.44)}
-.reine{position:absolute;z-index:3;left:0;top:50%;height:96%;width:auto;pointer-events:none;will-change:transform;transform:translate3d(-80vw,-50%,0)}
 .ouv-bas{display:grid;grid-template-columns:minmax(0,1.1fr) auto minmax(0,.9fr);gap:clamp(18px,4vw,64px);align-items:end;padding-block:clamp(16px,2.4vw,30px) clamp(18px,2.4vw,30px)}
-.promesses{display:grid}
-.promesses .promesse{grid-area:1/1;opacity:0;transition:opacity .5s ease;max-width:46ch;font-size:clamp(1.05rem,1.4vw,1.25rem);color:var(--ivoire)}
-.promesses .promesse.on{opacity:1}
+.ouv-bas .promesse{max-width:46ch;font-size:clamp(1.05rem,1.4vw,1.25rem);color:var(--ivoire)}
 .ouv-bas .actions{display:flex;flex-wrap:wrap;gap:12px}
 .ouv-bas .signe{justify-self:end;text-align:right;color:var(--doux);font-size:.95rem;max-width:none}
 .ouv-bas .signe b{display:block;font-family:var(--affiche);font-size:1.5rem;letter-spacing:.04em;color:var(--or-vif);text-transform:uppercase;line-height:1.1}
@@ -382,19 +375,12 @@ input[type=range]{width:100%;accent-color:#d9a441}
   .decoupe .l2 > span,.decoupe .l3 > span{display:block}
   .decoupe .l2 > span:first-child::after,.decoupe .l3 > span:first-child::after{content:"-"}
   .decoupe .l2{margin-block:.04em 0}
-  .ouverture{height:auto}
-  .scene-ouv{position:relative;height:auto;overflow:visible}
-  .d2,.d3,.reine,.promesse.p2,.promesse.p3{display:none}
-  .promesses .promesse.p1{opacity:1}
+  .scene-ouv{height:auto;overflow:visible}
   .scene .outils{max-width:100%;left:12px;justify-content:flex-start}
   .curseur{grid-template-columns:6em minmax(0,1fr) 3em}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .ouverture{height:auto}
-  .scene-ouv{position:relative;height:auto;min-height:100svh;overflow:visible}
-  .d2,.d3,.reine,.promesse.p2,.promesse.p3{display:none}
-  .promesses .promesse.p1{opacity:1}
   .bandeau .piste,.chaine::before{animation:none}
   .js .rev > span{transform:none;transition:none}
   .js .ap{opacity:1;transition:none}

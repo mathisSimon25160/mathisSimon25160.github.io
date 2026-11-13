@@ -1,25 +1,16 @@
 /* Ouverture : le titre est une fenêtre sur un échiquier vivant (canvas 2D, blanc et or).
    Un chariot à anneau glisse sous une pièce et l'emmène ; les prises sortent du plateau ; chaque arrivée lance une onde de capteurs.
-   Au défilement, l'ouverture reste épinglée : une dame traverse l'écran et balaie le texte pour amener le suivant,
-   pendant que le plateau défile sous les lettres. */
+   Le curseur allume les cases (capteurs). */
 (function () {
   "use strict";
   var cv = document.getElementById("plateau-hero");
   if (!cv || !cv.getContext) return;
   var ctx = cv.getContext("2d");
-  var mqCalme = window.matchMedia("(prefers-reduced-motion: reduce)"), mqEtroit = window.matchMedia("(max-width: 620px)");
-  var calme = mqCalme.matches;
+  var calme = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var BLANC = "#fcfaf5", OR = "#f2c14e", OR_CLAIR = "#fff0b8", PION_N = "#1c1209", PION_B = "#ffffff", ENCRE = "#1a0f06";
-  var EXTRA = 9;                                   // colonnes supplémentaires à droite, qui entrent au défilement
+  var EXTRA = 2;                                   // colonnes de réserve à droite
   var W = 0, H = 0, cell = 60, cols = 0, rows = 0, ox = 0, oy = 0, dpr = 1;
-  var pieces = [], mag = { x: 0, y: 0 }, coup = null, pause = 0, souris = null, visible = true, ondes = [], trace = [], apparitions = [], progres = 0;
-
-  var sec = document.getElementById("ouverture") || document.getElementById("haut");
-  var d1 = document.querySelector(".d1"), d2 = document.querySelector(".d2"), d3 = document.querySelector(".d3"), reine = document.querySelector(".reine");
-  var promesses = Array.prototype.slice.call(document.querySelectorAll(".promesse"));
-  var titre = document.querySelector(".titre");
-
-  function epingle() { return !mqEtroit.matches && !mqCalme.matches; }
+  var pieces = [], mag = { x: 0, y: 0 }, coup = null, pause = 0, souris = null, visible = true, ondes = [], trace = [], apparitions = [];
 
   function taille() {
     var r = cv.getBoundingClientRect();
@@ -106,8 +97,7 @@
     }
   }
 
-  var dec = 0;                                         // décalage horizontal du plateau, en pixels, lié au défilement
-  function px(c) { return ox + c * cell + dec; }
+  function px(c) { return ox + c * cell; }
   function py(r) { return oy + r * cell; }
 
   function trace2(t, s) {                               // silhouettes en unités de case, origine au centre
@@ -184,35 +174,6 @@
     ctx.fillStyle = ENCRE; ctx.beginPath(); ctx.arc(mx, my, cell * .1, 0, 6.2832); ctx.fill();
   }
 
-  /* ---------- ouverture épinglée : la dame ---------- */
-  function borne(v) { return Math.max(0, Math.min(100, v)); }
-  function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
-  var dernierIdx = -1;
-  function majDefilement() {
-    if (!sec) return;
-    var r = sec.getBoundingClientRect(), span = r.height - window.innerHeight;
-    var p = epingle() && span > 0 ? Math.max(0, Math.min(1, -r.top / span)) : 0;
-    progres = p;
-    dec = -p * cell * EXTRA * .85;
-    if (!epingle() || !d2 || !d3) return;
-    var X1 = p < .2 ? -22 : p > .4 ? 122 : -22 + 144 * ease((p - .2) / .2);
-    var X2 = p < .6 ? 122 : p > .8 ? -22 : 122 - 144 * ease((p - .6) / .2);
-    var c1 = borne(X1), c2 = borne(X2);
-    d1.style.setProperty("--l", c1 + "%");
-    d2.style.setProperty("--r", (100 - Math.min(c1, c2)) + "%");
-    d3.style.setProperty("--l", c2 + "%");
-    var q = p >= .2 && p <= .4 ? X1 : (p >= .6 && p <= .8 ? X2 : null);
-    if (q === null) { reine.style.transform = "translate3d(-200vw,-50%,0)"; }
-    else {
-      var w = reine.getBoundingClientRect().width || 200, bw = titre.clientWidth, sens = p < .5 ? 1 : -1, t = p < .5 ? (p - .2) / .2 : (p - .6) / .2;
-      var x = q / 100 * bw - w / 2, rot = sens * (6 - 12 * Math.abs(t - .5) * 0) + Math.sin(t * 18) * 3, hop = Math.sin(t * Math.PI * 4) * 1.6;
-      reine.style.transform = "translate3d(" + x.toFixed(1) + "px," + (-50 + hop).toFixed(2) + "%,0) rotate(" + rot.toFixed(2) + "deg)";
-    }
-    var idx = p < .3 ? 0 : (p < .7 ? 1 : 2);
-    if (idx !== dernierIdx) { dernierIdx = idx; promesses.forEach(function (e, k) { e.classList.toggle("on", k === idx); }); }
-  }
-  window.addEventListener("scroll", function () { majDefilement(); if (calme || !visible) dessiner(); }, { passive: true });
-
   var dernier = 0;
   function boucle(t) {
     requestAnimationFrame(boucle);
@@ -221,13 +182,13 @@
     avancer(dt); dessiner();
   }
 
-  taille(); majDefilement();
-  var attente; window.addEventListener("resize", function () { clearTimeout(attente); attente = setTimeout(function () { taille(); majDefilement(); }, 120); });
+  taille();
+  var attente; window.addEventListener("resize", function () { clearTimeout(attente); attente = setTimeout(taille, 120); });
   if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }, { threshold: 0 }).observe(cv);
   var zone = cv.parentNode;
   zone.addEventListener("pointermove", function (e) { var r = cv.getBoundingClientRect(); souris = { x: e.clientX - r.left, y: e.clientY - r.top }; if (calme) dessiner(); });
   zone.addEventListener("pointerleave", function () { souris = null; if (calme) dessiner(); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { taille(); majDefilement(); });
-  if (window.ResizeObserver) { var ro = new ResizeObserver(function () { clearTimeout(attente); attente = setTimeout(function () { taille(); majDefilement(); }, 120); }); ro.observe(cv); }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(taille);
+  if (window.ResizeObserver) { var ro = new ResizeObserver(function () { clearTimeout(attente); attente = setTimeout(taille, 120); }); ro.observe(cv); }
   if (!calme) requestAnimationFrame(boucle);
 })();
