@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Échiquier connecté V3</title>
+<meta name="description" content="Un vrai échiquier en bois dont les pièces de l'adversaire se déplacent seules, sous le plateau. Plans, pièces imprimables, modèles 3D et dossier complet de la version 3, conçue à Besançon.">
+<meta name="theme-color" content="#0a0705">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Big+Shoulders+Display:wght@800;900&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="saut" href="#jeu">Aller au contenu</a>
+<div class="progres" aria-hidden="true"></div>
+
+<header class="barre">
+  <div class="w">
+    <a class="marque" href="#haut" aria-label="Échiquier connecté V3, haut de page">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#d9a441"/><rect x="0" y="0" width="16" height="16" fill="#0a0705"/><rect x="16" y="16" width="16" height="16" fill="#0a0705"/></svg>
+      Échiquier V3
+    </a>
+    <nav id="nav" aria-label="Sections">
+      <a href="#jeu">Le jeu</a><a href="#fonctionnement">Fonctionnement</a><a href="#plans">Plans</a><a href="#pieces">Pièces</a><a href="#fabrication">Fabrication</a><a href="#dossier">Dossier</a>
+      <a class="btn plein" href="#contact">Contact</a>
+    </nav>
+    <button class="menu-b" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span></button>
+  </div>
+</header>
+
+<main>
+<!-- OUVERTURE -->
+<section class="ouverture" id="haut" aria-label="Présentation">
+ <div class="scene-ouv">
+  <div class="titre">
+    <canvas id="plateau-hero" aria-hidden="true"></canvas>
+    <h1 class="decoupe d1"><span class="l1">Un vrai</span><span class="l2"><span>Échi</span><span>quier.</span></span><span class="l3"><span>À dis</span><span>tance.</span></span></h1>
+    <p class="decoupe d2"><span class="l1">Zéro</span><span class="l2">Écran.</span><span class="l3">Zéro bouton.</span></p>
+    <p class="decoupe d3"><span class="l1">Fabriqué</span><span class="l2">En France.</span><span class="l3">Conçu à Besançon.</span></p>
+    <svg class="reine" viewBox="0 0 200 360" aria-hidden="true" focusable="false">
+      <g stroke="#0a0705" stroke-width="5" stroke-linejoin="round">
+        <circle cx="16" cy="54" r="11" fill="#fff3c4"/><circle cx="78" cy="30" r="11" fill="#fff3c4"/><circle cx="122" cy="30" r="11" fill="#fff3c4"/><circle cx="184" cy="54" r="11" fill="#fff3c4"/><circle cx="100" cy="62" r="11" fill="#fff3c4"/>
+        <path d="M30 122 L16 62 L56 94 L78 40 L100 76 L122 40 L144 94 L184 62 L170 122 Z" fill="#f2c14e"/>
+        <path d="M46 122 H154 L164 144 H36 Z" fill="#fcfaf5"/>
+        <path d="M62 144 C62 204 44 254 30 304 H170 C156 254 138 204 138 144 Z" fill="#f2c14e"/>
+        <path d="M100 144 C100 204 100 254 100 304 H170 C156 254 138 204 138 144 Z" fill="#c9922a" stroke="none"/>
+        <path d="M22 304 H178 V326 H22 Z" fill="#fcfaf5"/>
+        <path d="M10 326 H190 V350 H10 Z" fill="#f2c14e"/>
+      </g>
+    </svg>
+  </div>
+  <div class="w ouv-bas">
+    <div class="promesses">
+      <p class="promesse p1 on">Vous déplacez vos pièces à la main. Celles de l'adversaire se déplacent seules, tirées par un aimant caché sous le plateau.</p>
+      <p class="promesse p2">Pas d'écran sur la table, pas de bouton à presser pour valider un coup : 64 capteurs lisent chaque case.</p>
+      <p class="promesse p3">Un coffre de 48 mm de haut, une incrustation en laiton. Conçu à Besançon, fabriqué en France.</p>
+    </div>
+    <div class="actions"><a class="btn plein" href="#dossier">Télécharger le dossier</a><a class="btn" href="#fonctionnement">Voir la mécanique</a></div>
+    <p class="signe"><b>Fabriqué en France</b>Conçu à Besançon, version 3, novembre 2026</p>
+  </div>
+  <div class="bandeau" aria-hidden="true">
+    <div class="piste">
+      <ul><li>Fabriqué en France</li><li>64 capteurs</li><li>2 moteurs</li><li>604 × 508 × 48 mm</li><li>Aucun bouton</li><li>13 pièces imprimées</li><li>Conçu à Besançon</li></ul>
+      <ul><li>Fabriqué en France</li><li>64 capteurs</li><li>2 moteurs</li><li>604 × 508 × 48 mm</li><li>Aucun bouton</li><li>13 pièces imprimées</li><li>Conçu à Besançon</li></ul>
+    </div>
+  </div>
+ </div>
+</section>
+
+<!-- LE JEU -->
+<section id="jeu" class="bloc">
+  <div class="w">
+    <div class="manifeste">
+      <h2 class="aff aff-l rev"><span>Le plaisir du bois.</span><span class="or">Le jeu en ligne.</span></h2>
+      <p class="chapo ap">Deux échiquiers identiques, chacun chez un joueur, reliés par internet. Chaque plateau sait où sont ses pièces et reproduit le coup joué en face. Pas d'écran sur la table, pas de bouton à presser pour valider un coup.</p>
+    </div>
+  </div>
+  <div class="w">
+    <div class="damier">
+      <div class="case or"><h3 class="t">Jouer à distance</h3><p>Deux plateaux se synchronisent : le coup joué sur l'un est rejoué sur l'autre.</p></div>
+      <div class="case"><h3 class="t">Jouer seul</h3><p>Contre un moteur d'échecs (Stockfish) qui tourne en local.</p></div>
+      <div class="case or"><h3 class="t">Jouer en ligne</h3><p>Liaison prévue avec Lichess, par son interface officielle pour échiquiers.</p></div>
+      <div class="case"><h3 class="t">Aucun bouton</h3><p>Objectif : suivre tous les coups par les capteurs, sans jamais valider à la main.</p></div>
+      <div class="case or"><h3 class="t">Un bel objet</h3><p>Coffre de 48 mm, laque noire satinée, plateau brillant, arêtes arrondies.</p></div>
+      <div class="case"><h3 class="t">Fabriqué en France</h3><p>Conçu à Besançon. Incrustation en laiton côté joueur.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RENDUS -->
+<section class="galerie-b" aria-label="Rendus">
+  <div class="galerie" id="galerie" tabindex="0">
+    <button type="button"><img src="assets/hero.jpg" width="1600" height="1000" alt="Vue de trois quarts du coffre fermé : coffre noir satiné, plateau laqué à cases crème et noires, cimetières de deux cases de chaque côté, incrustation dorée côté joueur."><span>Trois quarts</span></button>
+    <button type="button"><img src="assets/eclate.jpg" width="1600" height="1000" loading="lazy" alt="Coffre ouvert : le dessus soulevé laisse voir les rails, le portique et les deux moteurs."><span>Ouvert</span></button>
+    <button type="button"><img src="assets/dessus.jpg" width="1600" height="1000" loading="lazy" alt="Vue de dessus : plateau, cimetières de deux cases, emblème et inscription."><span>Dessus</span></button>
+    <button type="button"><img src="assets/meca.jpg" width="1600" height="1000" loading="lazy" alt="Mécanique seule vue de dessus : deux rails, portique, chariot, deux moteurs côté joueur."><span>Mécanique</span></button>
+    <button type="button"><img src="assets/plaque.jpg" width="1600" height="1000" loading="lazy" alt="Gros plan sur l'incrustation dorée Fabriqué en France et le petit drapeau."><span>Incrustation</span></button>
+    <button type="button"><img src="assets/joueur.jpg" width="1600" height="1000" loading="lazy" alt="Vue depuis la place du joueur."><span>Côté joueur</span></button>
+    <button type="button"><img src="assets/profil.jpg" width="1600" height="1000" loading="lazy" alt="Profil du coffre : arêtes arrondies, joint fin entre le corps et le dessus."><span>Profil</span></button>
+  </div>
+</section>
+
+<!-- FONCTIONNEMENT -->
+<section id="fonctionnement" class="bloc brun" style="padding-bottom:0">
+  <div class="w">
+    <div class="tete">
+      <h2 class="aff aff-l rev"><span>Ouvrez le coffre</span><span class="or">en faisant défiler.</span></h2>
+      <p class="chapo ap">La maquette est le modèle 3D réel de la version 3 : mêmes cotes, mêmes pièces que les fichiers d'impression. Les courroies sont colorées pour la lecture.</p>
+    </div>
+    <div class="histoire" id="histoire">
+      <div class="scene" id="scene">
+        <canvas id="toile" aria-label="Maquette 3D de l'échiquier : le dessus se soulève et montre la mécanique"></canvas>
+        <img class="attente" src="assets/eclate.jpg" width="1600" height="1000" loading="lazy" alt="Rendu du coffre ouvert : le dessus soulevé laisse voir les rails, le portique et les deux moteurs.">
+        <div class="legende"><span><i style="background:#f0bd4f"></i>courroie A</span><span><i style="background:#f2e9d8"></i>courroie B</span></div>
+        <div class="outils">
+          <button type="button" id="b-libre" aria-pressed="false">Explorer librement</button>
+          <button type="button" class="libre-seul" data-vue="ferme">Fermé</button>
+          <button type="button" class="libre-seul" data-vue="ouvert">Ouvert</button>
+          <button type="button" class="libre-seul" data-vue="capteurs">Capteurs</button>
+          <button type="button" class="libre-seul" data-vue="x">Vue à travers</button>
+        </div>
+      </div>
+      <div class="etapes">
+        <article class="etape on"><span class="n" aria-hidden="true">1</span><h3>Fermé : rien ne dépasse</h3><p>Tout tient dans 48 mm de haut. Le plateau de 300 × 300 mm est entouré de deux cimetières de deux cases, à 5 mm du jeu : les pièces prises s'y rangent sur la même grille que le jeu, 16 places par couleur.</p></article>
+        <article class="etape"><span class="n" aria-hidden="true">2</span><h3>64 capteurs sous les cases</h3><p>Quatre nappes souples sont collées sous le plateau. Chacune porte 16 capteurs à effet Hall et une puce qui les lit l'un après l'autre.</p><ul><li>Chaque pièce contient un aimant : <b>pôle nord pour les blanches, sud pour les noires</b>.</li><li>Le capteur voit la présence et la couleur de la pièce.</li><li>Lecture prévue environ 50 fois par seconde.</li></ul></article>
+        <article class="etape"><span class="n" aria-hidden="true">3</span><h3>Un portique à deux courroies</h3><p>Deux moteurs fixes, côté joueur, tirent chacun une courroie crantée. Les deux courroies se croisent sur un portique qui roule sur deux rails (montage CoreXY).</p><ul><li>Les deux moteurs dans le même sens : le chariot va d'un côté à l'autre.</li><li>En sens opposés : il avance ou recule.</li><li>Les moteurs ne bougent pas, le chariot reste léger.</li></ul></article>
+        <article class="etape"><span class="n" aria-hidden="true">4</span><h3>L'aimant emmène la pièce</h3><p>Le chariot porte un électroaimant de 10 mm. Il se place sous la pièce, s'allume, la fait glisser jusqu'à sa case, puis s'éteint. Les pièces passent entre leurs voisines : leur base fait la moitié d'une case.</p></article>
+        <article class="etape"><span class="n" aria-hidden="true">5</span><h3>Refermé : il ne reste que le jeu</h3><p>Carte électronique, moteurs et câbles sont dans la bande côté joueur, sous le dessus. Vu de l'extérieur : un échiquier.</p></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAÎNE -->
+<section id="chaine" class="bloc brun" style="padding-top:clamp(56px,8vw,120px)">
+  <div class="w">
+    <div class="tete">
+      <h2 class="aff aff-l rev"><span>Du coup joué</span><span class="or">au coup rejoué.</span></h2>
+    </div>
+    <div class="chaine">
+      <div class="maillon"><b>Pièce aimantée</b><span>Aimant de 8 × 2 mm dans le socle.</span></div>
+      <div class="maillon"><b>Capteurs Hall</b><span>64 capteurs sur 4 nappes, lus par 4 multiplexeurs.</span></div>
+      <div class="maillon"><b>Carte ESP32</b><span>Lit les capteurs, pilote moteurs et aimant, parle en Wi-Fi.</span></div>
+      <div class="maillon"><b>Logiciel d'échecs</b><span>Déduit le coup, vérifie qu'il est légal, l'envoie à l'autre plateau.</span></div>
+      <div class="maillon"><b>2 moteurs pas à pas</b><span>Pilotes silencieux TMC2209, courroies GT2.</span></div>
+      <div class="maillon"><b>Électroaimant</b><span>12 V, sous le plateau, allumé seulement pendant le déplacement.</span></div>
+    </div>
+    <div class="deux">
+      <div><h3>Comment le plateau comprend un coup</h3><p>Le logiciel connaît la position. Quand des cases changent d'état, il cherche le coup légal qui correspond. La polarité de l'aimant sert de vérification : une case qui passe de « blanche » à « noire » est une prise.</p></div>
+      <div><h3>Capteurs et aimant ne se gênent pas</h3><p>L'électroaimant et la lecture des capteurs ne sont jamais actifs en même temps. La position est sauvegardée après chaque coup : une coupure de courant ne fait pas perdre la partie.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section id="plans" class="bloc">
+  <div class="w">
+    <div class="tete">
+      <h2 class="aff aff-l rev"><span>Au millimètre.</span><span class="or">Tout en transparence.</span></h2>
+      <p class="chapo ap">Cotes et vues tracées à l'échelle à partir du même modèle 3D que la maquette, carte électronique comprise. Les numéros renvoient au tableau des hauteurs.</p>
+    </div>
+    <div class="onglets" role="tablist" aria-label="Plans">
+      <button role="tab" id="t-cotes" aria-selected="true" aria-controls="p-cotes" type="button">Cotes</button>
+      <button role="tab" id="t-dessus" aria-selected="false" aria-controls="p-dessus" tabindex="-1" type="button">Dessus</button>
+      <button role="tab" id="t-face" aria-selected="false" aria-controls="p-face" tabindex="-1" type="button">Face</button>
+      <button role="tab" id="t-cote" aria-selected="false" aria-controls="p-cote" tabindex="-1" type="button">Côté</button>
+      <button role="tab" id="t-haut" aria-selected="false" aria-controls="p-haut" tabindex="-1" type="button">Hauteurs</button>
+    </div>
+    <div class="panneau" role="tabpanel" id="p-cotes" aria-labelledby="t-cotes">
+      <p>Vue de dessus, joueur en bas. Les marges sont identiques à gauche, à droite et en face ; la bande côté joueur est plus large, elle abrite les moteurs et la carte.</p>
+      <div class="cotes">
+        <div class="plan">{{SVG_COTES}}</div>
+        <div class="tablo"><table>
+          <tr><th>Hors tout</th><td>604 × 508 × 48 mm</td></tr>
+          <tr><th>Intérieur du coffre</th><td>592 × 496 × 36 mm</td></tr>
+          <tr><th>Parois, fond, dessus</th><td>6 mm</td></tr>
+          <tr><th>Fenêtre de jeu</th><td>460 × 320 mm</td></tr>
+          <tr><th>Plateau</th><td>300 × 300 mm</td></tr>
+          <tr><th>Case</th><td>37,5 mm</td></tr>
+          <tr><th>Cimetières</th><td>2 × 75 mm, 16 places chacun</td></tr>
+          <tr><th>Écart plateau / cimetière</th><td>5 mm</td></tr>
+          <tr><th>Base d'une pièce</th><td>Ø 18,75 mm au plus</td></tr>
+          <tr><th>Marges gauche, droite, fond</th><td>72 mm (66 à l'intérieur)</td></tr>
+          <tr><th>Marge côté joueur</th><td>116 mm (110 à l'intérieur)</td></tr>
+          <tr><th>Course de l'aimant</th><td>450 × 303,5 mm</td></tr>
+          <tr><th>Rails / tiges du portique</th><td>Ø 6 × 423 / Ø 6 × 520 mm</td></tr>
+          <tr><th>Courroies GT2 de 3 mm</th><td>1 906 et 1 903 mm</td></tr>
+        </table></div>
+      </div>
+    </div>
+    <div class="panneau" role="tabpanel" id="p-dessus" aria-labelledby="t-dessus" hidden>
+      <p>Vue de dessus (x, y). Le dessus, la feuille et les nappes sont transparents. Le chariot est sous la case e4.</p>
+      <div class="plan">{{SVG_DESSUS}}</div>
+      <div class="pl-leg"><span><i style="background:rgba(217,164,65,.5);border-color:#d9a441"></i>pièces imprimées</span><span><i style="background:rgba(242,233,216,.78)"></i>acier : rails, tiges, roulements</span><span><i style="background:rgba(242,233,216,.13)"></i>moteurs</span><span><i style="background:rgba(242,233,216,.07)"></i>nappes de capteurs</span><span><i style="background:rgba(242,233,216,.22)"></i>carte mère</span><span><i style="background:#f0bd4f;height:3px;border:0"></i>courroie A</span><span><i style="background:#f2e9d8;height:3px;border:0"></i>courroie B</span></div>
+    </div>
+    <div class="panneau" role="tabpanel" id="p-face" aria-labelledby="t-face" hidden>
+      <p>Vue de face (x, z), depuis la place du joueur. Les hauteurs sont agrandies 2,2 fois pour lire les épaisseurs.</p>
+      <div class="plan">{{SVG_FACE}}</div>
+    </div>
+    <div class="panneau" role="tabpanel" id="p-cote" aria-labelledby="t-cote" hidden>
+      <p>Vue de côté (y, z), même échelle des hauteurs. Moteurs, rails et carte se superposent ici : ils ne sont pas au même x.</p>
+      <div class="plan">{{SVG_COTE}}</div>
+    </div>
+    <div class="panneau" role="tabpanel" id="p-haut" aria-labelledby="t-haut" hidden>
+      <p>Hauteurs des pièces, z en mm, 0 = dessus du fond.</p>
+      <div class="tablo">{{TAB_HAUTEURS}}</div>
+    </div>
+  </div>
+</section>
+
+<!-- PIÈCES -->
+<section id="pieces" class="bloc brun2">
+  <div class="w">
+    <div class="tete">
+      <h2 class="aff aff-l rev"><span>Treize pièces</span><span class="or">à imprimer.</span></h2>
+      <p class="chapo ap">Dix fichiers de pièces et trois coupons d'essai, en PETG, dans leur orientation d'impression. Cliquez une pièce pour la faire tourner en 3D : c'est le vrai fichier STL, à télécharger.</p>
+    </div>
+    <div class="atelier">
+      <ul class="liste-p" id="liste-pieces"></ul>
+      <div class="visio">
+        <div class="vue" id="vue-piece">
+          <canvas id="toile-piece" aria-label="Visionneuse 3D de la pièce choisie"></canvas>
+          <div class="msg" id="piece-msg">Chargement de la visionneuse…</div>
+        </div>
+        <div class="info">
+          <div><b id="piece-nom">Chariot central</b><span id="piece-role"></span></div>
+          <a class="btn plein petit" id="piece-dl" href="telechargements/stl/chariot_central.stl" download>Télécharger le STL</a>
+        </div>
+        <p class="aide">Glissez pour tourner, molette ou pincement pour zoomer.</p>
+        <div class="tout"><a class="btn petit" href="telechargements/echiquier_v3_pieces_stl.zip" download>Les 13 STL en un seul ZIP</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FABRICATION -->
+<section id="fabrication" class="bloc">
+  <div class="w">
+    <div class="tete">
+      <h2 class="aff aff-l rev"><span>Peu de pièces.</span><span class="or">Des pièces simples.</span></h2>
+      <p class="chapo ap">La mécanique tient en 13 pièces imprimées, des tiges d'acier de 6 mm et de la visserie M3 courante. Le reste est du panneau de 6 mm. Aucun roulement linéaire : les pièces glissent directement sur les tiges.</p>
+    </div>
+    <div class="listes">
+      <div><h3>Coffre</h3><ul><li>Fond 592 × 496 × 6 mm</li><li>2 parois 604 × 42 et 2 parois 496 × 42</li><li>Dessus 604 × 508 × 6, fenêtre 460 × 320, feuillure 481 × 341</li><li>Feuille de jeu 480 × 340, affleurante</li><li>Finition visée : laque ou placage noir satiné, zone de jeu brillante</li><li>Incrustation laiton, environ 0,8 mm de profondeur</li></ul></div>
+      <div><h3>Mécanique</h3><ul><li>13 pièces imprimées en PETG : 2 blocs, 1 chariot, 2 supports d'angle, 2 supports moteur, 2 poulies, 4 bouchons</li><li>2 rails Ø 6 × 423 mm, 2 tiges Ø 6 × 520 mm</li><li>2 moteurs NEMA 17 plats</li><li>4 m de courroie GT2 de 3 mm</li><li>8 roulements à bride F623ZZ</li></ul></div>
+      <div><h3>Électronique</h3><ul><li>4 nappes souples 2 couches, 16 capteurs Hall et 1 multiplexeur chacune</li><li>Carte mère 55 × 179 mm : ESP32, 2 pilotes TMC2209, pilote d'électroaimant</li><li>Alimentation 12 V</li><li>Tout en 3,3 V côté capteurs</li><li>Connecteurs JST-XH entre nappes et carte</li></ul></div>
+    </div>
+    <div class="achats">
+      <div class="tablo ap">
+        <h3>À acheter</h3>
+        <table>
+          <tr><th>Courroie GT2 3 mm, pas 2 mm, câbles verre</th><td>4 m</td></tr>
+          <tr><th>Roulement à bride F623ZZ (3 × 10 × 4)</th><td>8 (+2)</td></tr>
+          <tr><th>Boulon ISO 7380 M3 × 10 / × 20 / × 25</th><td>4 / 2 / 2</td></tr>
+          <tr><th>Écrou M3</th><td>10 (+4)</td></tr>
+          <tr><th>Vis M3 × 20 tête cylindrique (tension)</th><td>2</td></tr>
+          <tr><th>Vis pointeau M3 × 6 à 8 (poulies)</th><td>2 (+2)</td></tr>
+          <tr><th>Cyanoacrylate ou Kapton (bouchons B)</th><td>1</td></tr>
+          <tr><th>Rails Ø 6 à recouper</th><td>2 × 423 mm</td></tr>
+          <tr><th>Tiges Ø 6 du portique</th><td>2 × 520 mm</td></tr>
+          <tr><th>Moteur NEMA 17, aimant Ø 10, nappes, colle</th><td>inchangés</td></tr>
+        </table>
+      </div>
+      <div class="coupes ap">
+        <div>
+          <h3>Courroies : longueurs de coupe</h3>
+          <div class="tablo"><table><tr><th>Courroie A</th><td>1 906 mm, -6 / +7</td></tr><tr><th>Courroie B</th><td>1 903 mm, -6 / +7</td></tr></table></div>
+        </div>
+        <p class="chapo" style="font-size:1rem">Réglages d'impression conseillés, non testés : buse 0,4 ; couches 0,16 (poulies 0,12) ; 3 à 4 périmètres ; remplissage 25 à 40 % ; PETG partout où une pièce encaisse la tension.</p>
+        <p class="chapo" style="font-size:1rem">Ordre de montage conseillé : mesures, 3 coupons, bloc et chariot seuls sur un bout de rail et de tige, poulies, rails en sous-ensembles, portique sans courroie, une seule courroie (A), puis la seconde.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AVANCEMENT -->
+<section id="avancement" class="bloc brun">
+  <div class="w">
+    <div class="tete">
+      <h2 class="aff aff-l rev"><span>Ce qui est essayé.</span><span class="or">Ce qui est calculé.</span></h2>
+      <p class="chapo ap">Un premier prototype a validé chaque brique une à une. La version 3 présentée ici est entièrement dessinée et vérifiée par calcul ; elle n'est pas encore construite.</p>
+    </div>
+    <div class="etat">
+      <div class="e1"><h3>Essayé en vrai</h3><p class="sous">Prototype 1</p><ul><li>Deux moteurs et leur portique pilotés par l'ESP32</li><li>Capteurs Hall lus à travers le plateau, avec la polarité</li><li>Électroaimant qui entraîne une pièce à travers le plateau</li><li>Partie jouée entre deux programmes reliés par le réseau</li></ul></div>
+      <div class="e2"><h3>Calculé, pas construit</h3><p class="sous">Version 3</p><ul><li>Mécanique complète en 3D, pièces prêtes à imprimer</li><li>Aucune collision sur 1 472 positions du chariot, courroies comprises</li><li>Longueur des courroies constante sur toute la course</li><li>Nappe de capteurs dessinée et contrôlée, à adapter à son nouveau sens de pose</li><li>Carte mère routée, à contrôler avant commande</li></ul></div>
+      <div class="e3"><h3>À faire</h3><p class="sous">Vers le premier exemplaire</p><ul><li>Imprimer et monter la mécanique</li><li>Commander une première nappe et la carte mère</li><li>Essayer les pilotes silencieux et le retour à l'origine sans capteur de fin de course</li><li>Écrire le logiciel de la version 3</li><li>Choisir la finition du coffre avec un ébéniste</li></ul></div>
+    </div>
+    <p class="note">Les frottements, la tenue des pièces imprimées sous tension et la force de l'aimant à travers la feuille de jeu restent à mesurer sur le premier exemplaire.</p>
+  </div>
+</section>
+
+<!-- COLLISIONS -->
+<section id="collisions" class="zero">
+  <div class="w">
+    <h2 class="aff rev"><span>Zéro collision.</span><span>Sur toute la course.</span></h2>
+    <div class="bas ap">
+      <p>L'ensemble est monté en 3D avec les vraies pièces, les courroies, les nappes et la carte mère. Déplacez l'aimant au-delà de la course utile : ce qui se touche s'allume.</p>
+      <a class="btn" href="collisions.html">Ouvrir la page collisions</a>
+    </div>
+  </div>
+</section>
+
+<!-- DOSSIER -->
+<section id="dossier" class="bloc">
+  <div class="w">
+    <div class="tete">
+      <h2 class="aff aff-l rev"><span>Tout le dossier.</span><span class="or">À télécharger.</span></h2>
+      <p class="chapo ap">Plans, pièces, modèles 3D et fichiers électroniques de la version 3. Tout est calculé sur le modèle 3D : rien n'est encore imprimé ni construit.</p>
+    </div>
+    <div class="groupes">{{DOWNLOADS}}</div>
+  </div>
+</section>
+</main>
+
+<!-- CONTACT -->
+<footer id="contact" class="contact">
+  <div class="w">
+    <h2 class="aff rev"><span>Parlons-en.</span></h2>
+    <div class="bas">
+      <p>Fabrication, petite série, partenariat : écrivez-moi quelques lignes sur votre projet et vos volumes.</p>
+      <a class="btn plein" href="mailto:votre-adresse@exemple.fr?subject=%C3%89chiquier%20connect%C3%A9%20V3">Écrire un message</a>
+    </div>
+    <div class="pied">
+      <span class="fef"><i aria-hidden="true"></i>Fabriqué en France</span>
+      <span>Conçu à Besançon · version 3, novembre 2026</span>
+      <a href="#haut">Retour en haut</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/hero.js"></script>
+<script src="js/story.js"></script>
+<script src="js/pieces.js"></script>
+</body>
+</html>

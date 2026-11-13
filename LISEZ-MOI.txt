@@ -1,0 +1,26 @@
+ÉCHIQUIER CONNECTÉ V3 : NOUVEAU SITE (site_v2)
+
+L'ancien dossier site/ n'a pas été touché.
+
+Ouvrir : il faut un serveur web (GitHub Pages, ou en local « python -m http.server » dans ce dossier, puis http://localhost:8000).
+En double-clic (file://) la page s'affiche mais la maquette 3D, la visionneuse de pièces et le chargement des données ne marchent pas.
+Internet est nécessaire : polices (Google Fonts) et three.js (cdnjs, jsDelivr).
+
+Contenu
+  index.html            la page de présentation
+  collisions.html       la page « collisions et limites de course » (maquette 3D interactive)
+  css/site.css          tout le style (couleurs en haut du fichier : --noir, --brun-*, --or*, --ivoire)
+  js/                   hero.js (titre sur l'échiquier vivant), story.js (maquette 3D au défilement), pieces.js (visionneuse STL),
+                        app.js (menu, plans, galerie), collisions.js
+  assets/               rendus Blender (jpg) et modèles 3D (json)
+  telechargements/      tout ce qui se télécharge : PDF, STL (dossier stl/ et ZIP), 3MF, GLB, .blend, Gerber/KiCad, CSV
+  _index.tpl.html       modèle de index.html (les plans SVG et la liste des téléchargements sont insérés par un script de génération :
+                        pour modifier un texte, éditer directement index.html)
+
+À remplacer avant publication
+  - L'adresse du bouton « Écrire un message » (en bas de index.html) : mailto:votre-adresse@exemple.fr
+  - Les rendus assets/*.jpg montrent encore les pièces imprimées en orange (rendus Blender d'origine). Pour les passer à l'or,
+    refaire les rendus avec blender/build_v3.py en changeant la couleur « petg_orange ».
+
+Poids : la page d'accueil charge moins de 1 Mo au premier affichage (non mesuré précisément) ; la 3D (coffre_v3.json 3,7 Mo, mécanique 0,7 Mo) et three.js ne se chargent
+que lorsqu'on arrive sur la section concernée. Les gros fichiers (.blend 8 Mo, coffre GLB 2,8 Mo) ne se téléchargent qu'au clic.

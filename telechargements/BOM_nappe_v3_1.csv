@@ -1,0 +1,6 @@
+Valeur;Boitier;Face;Quantite par nappe;References;Reference commande (a verifier)
+100nF;C_0603;dessous;1;CB1;Samsung CL10B104KB8NNNC (LCSC C1591) ou equivalent 0603 X7R >= 25 V
+100nF;C_0603;dessus;16;CL1 CU1 CL2 CU2 CL3 CU3 CL4 CU4 CL5 CU5 CL6 CU6 CL7 CU7 CL8 CU8;Samsung CL10B104KB8NNNC (LCSC C1591) ou equivalent 0603 X7R >= 25 V
+10uF;C_0805;dessous;1;CB2;Murata GRM21BR61E106KA73K (0805, 25 V X5R) ou LCSC C15850
+CD74HC4067M96;SOIC-24W;dessous;1;U1;TI CD74HC4067M96 (SOIC-24 large 7,5 mm) - LCSC C496123
+OH49E;SOT-23;dessus;16;QL1 QH1 QL2 QH2 QL3 QH3 QL4 QH4 QL5 QH5 QL6 QH6 QL7 QH7 QL8 QH8;Capteur Hall lineaire OH49E / AH49E SOT-23 (lot AliExpress retenu)
